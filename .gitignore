@@ -1,0 +1,40 @@
+# Build output
+build/
+dist/
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+app.db
+foobar.db
+db.sqlite
+
+# Node
+node_modules/
+npm-debug.log*
+
+# TypeScript
+*.js.map
+*.d.ts
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Environment
+.env
+.env.local
+
+# Logs
+logs/
+*.log
+
+# Testing
+coverage/
+.nyc_output/
+
+# JavaScript files (since you're using TypeScript)
+src/**/*.js
