@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS category (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    lastUpdated TEXT,
-    budget INTEGER
+    name TEXT NOT NULL,
+    lastUpdated DATETIME NOT NULL,
+    budget REAL
 );
