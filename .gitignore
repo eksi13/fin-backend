@@ -1,14 +1,12 @@
 # Build output
 build/
 dist/
+database/
 
 # Database files
 *.sqlite
 *.sqlite3
 *.db
-app.db
-foobar.db
-db.sqlite
 
 # Node
 node_modules/
