@@ -1,4 +1,4 @@
-import { CategoryData } from "../models/CategoryData";
+import { CategoryData } from '../models/CategoryData';
 
 export class Category implements CategoryData {
     private _id: string; // UUID
@@ -52,3 +52,4 @@ export class Category implements CategoryData {
         this._lastUpdated = new Date();
     }
 }
+

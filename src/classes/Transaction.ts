@@ -1,5 +1,5 @@
-import { TransactionData } from '../models/TransactionData';
 import { TransactionType } from '../types';
+import { TransactionData } from '../models/TransactionData'
 
 
 export class Transaction implements TransactionData {
