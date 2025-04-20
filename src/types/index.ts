@@ -1,8 +1,15 @@
-// import { AccountData } from "../models/accountData";
+export enum TransactionType {
+    Ausgabe = 'Ausgabe',
+    Einnahme = 'Einnahme' 
+}
 
-export type TransactionType = 'Ausgabe' | 'Einnahme';
+export enum AccountType {
+    Girokonto = 'Girokonto',
+    Tagesgeld = 'Tagesgeld',
+    Bargeld = 'Bargeld',
+    Depot = 'Depot'
+}
 
-export type AccountType = 'Girokonto' | 'Tagesgeld' | 'Bargeld' | 'Depot';
-
-// export type Accounts = AccountData[];
-// export type Categories = Category[];
+export enum Currency {
+    EUR = 'EUR'
+}
