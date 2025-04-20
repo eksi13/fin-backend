@@ -4,5 +4,5 @@ CREATE TABLE IF NOT EXISTS account_table (
     balance REAL NOT NULL,
     type TEXT NOT NULL,
     currency TEXT NOT NULL,
-    lastUpdated DATETIME NOT NULL
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP
 );
