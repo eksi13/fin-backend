@@ -1,8 +1,9 @@
-import sqlite3 from 'sqlite3';
+import sqlite3, { RunResult } from 'sqlite3';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { SCHEMA_FILES } from '../config.js';
+import { Statement } from 'sqlite';
 
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -29,6 +30,29 @@ export class DatabaseService {
         return DatabaseService.instance;
     };
 
+
+    public async runQuery(sqlQuery: string, parameters?: any[]): Promise<any> {
+        return new Promise((resolve, reject) => {
+            if (sqlQuery.trim().toUpperCase().startsWith('SELECT')) {
+                this.db.all(sqlQuery, parameters || [], (error, rows) => {
+                    if(error) {
+                        reject(error);
+                    } else {
+                        resolve(rows);
+                    }
+                });
+            } else {
+                this.db.run(sqlQuery, parameters || [], function(this: sqlite3.RunResult, error) {
+                    if(error) {
+                        reject(error);
+                    } else {
+                        resolve({ lastID: this.lastID, changes: this.changes });
+
+                    }
+                })
+            }
+        });
+    };
 
     public async initDatabase(): Promise<void> {
         for (var filename of Object.values(SCHEMA_FILES)) {
