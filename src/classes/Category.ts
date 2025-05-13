@@ -7,9 +7,9 @@ export class Category implements CategoryData {
     private _budget: number | null;
     
     constructor(data: CategoryData) {
-        this._id = data.id;
+        this._id = data.id!;
         this._name = data.name;
-        this._lastUpdated = data.lastUpdated;
+        this._lastUpdated = data.lastUpdated!;
         this._budget = data.budget ?? null;
     }
 
