@@ -13,7 +13,6 @@ const SCHEMA_PATH = path.resolve(__dirname, '../../../../src/db/schema/');
 
 export class DatabaseService {
     // singleton design pattern!
- 
     private static instance: DatabaseService | null = null;
     private db!: Database; 
 
@@ -34,13 +33,19 @@ export class DatabaseService {
 
     public async runQuery(sqlQuery: string): Promise<any> {
         let result: any;
+
         if (sqlQuery.trim().toUpperCase().startsWith('SELECT')) {
             result = await this.db.all(sqlQuery);
-        } else if (sqlQuery.trim().toUpperCase().startsWith('INSERT')) {
-            await this.db.run(sqlQuery);
-            result = await this.db.all('SELECT * FROM account_table');
+
+        } else if (
+            sqlQuery.trim().toUpperCase().startsWith('INSERT') 
+            || sqlQuery.trim().toUpperCase().startsWith('UPDATE') 
+            || sqlQuery.trim().toUpperCase().startsWith('DELETE')
+        ) {
+            result = await this.db.run(sqlQuery);
         } else { // needs to be removed
-            result = await this.db.all('SELECT 1'); 
+            result = await this.db.all('SELECT 1');
+            console.log("fallback"); 
         }
         return result;
     };
