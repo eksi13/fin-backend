@@ -31,7 +31,7 @@ export class DatabaseService {
     };
 
 
-    public async runQuery(sqlQuery: string): Promise<any> {
+    public async runQuery(sqlQuery: string, parameters?: string[]): Promise<any> {
         let result: any;
 
         if (sqlQuery.trim().toUpperCase().startsWith('SELECT')) {
@@ -39,10 +39,14 @@ export class DatabaseService {
 
         } else if (
             sqlQuery.trim().toUpperCase().startsWith('INSERT') 
-            || sqlQuery.trim().toUpperCase().startsWith('UPDATE') 
             || sqlQuery.trim().toUpperCase().startsWith('DELETE')
         ) {
             result = await this.db.run(sqlQuery);
+        } else if (sqlQuery.trim().toUpperCase().startsWith('UPDATE') ) {
+            
+            // TODO implement this properly so it can handel pramaters for updatinng vakllues
+            result = await this.db.run(sqlQuery, parameters);
+
         } else { // needs to be removed
             result = await this.db.all('SELECT 1');
             console.log("fallback"); 
