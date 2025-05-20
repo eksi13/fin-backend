@@ -11,5 +11,6 @@ export enum AccountType {
 }
 
 export enum Currency {
-    EUR = 'EUR'
+    EUR = 'EUR', 
+    USD = 'USD'
 }

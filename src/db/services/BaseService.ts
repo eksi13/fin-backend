@@ -65,14 +65,6 @@ export class BaseService {
 
 
 
-    public async foo<T extends object>(id: number, updates: T) {
-
-        
-
-    };
-
-
-
 
     public async delete() {};
 

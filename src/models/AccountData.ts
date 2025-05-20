@@ -10,3 +10,5 @@ export interface AccountData {
 }
 
 export type InsertAccountData = Omit<AccountData, 'id' | 'lastUpdated'>
+
+export type UpdateAccountData = Partial<InsertAccountData>

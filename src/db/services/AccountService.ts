@@ -78,18 +78,42 @@ export class AccountService {
 
 
     public async foo<T extends object>(id: number, updates: T) {
-        const keyList = Object.keys(updates).concat('lastUpdated = CURRENT_TIMESTAMP').join(' = ? , ');
 
-        const valueList = Object.values(updates).map( (key) => `'${key}'`).join(', ');
+        let valueQuery = '';
 
-        const query = `UPDATE table SET ${keyList} WHERE id = ${id}`;
+        for (const [key, value] of Object.entries(updates)) 
+            if (value !== undefined) {
+                const subQuery = `${key} = '${value}'`;
+                valueQuery = valueQuery.subQuery.toString().join(', ');
+            };
+        };
+
+        console.log(valueQuery);
+        const keyList = Object.keys(updates).join(', ');
+
+        // concat('lastUpdated = CURRENT_TIMESTAMP')
+
+        // const valueList = Object.values(updates).map( (value, key) => `'${key}'`).join(', ');
+        //console.log(Object.entries(updates).map((entry) => `${entry} ++++`));
+
+        const query = '';
+
+        //console.log(Object.entries(updates)); 
+
+     
+
+
+        
+
+
+        //const query = `UPDATE table SET ${keyList} WHERE id = ${id}`;
 
         // const query2 = `SELECT * FROM account_table WHERE id = ${id}`;
         // const result = await this.dbService.runQuery(query2);
 
 
-        console.log(keyList);
-        console.log(query);
+        /* console.log(keyList);
+        */
 
         //return result 
     };
