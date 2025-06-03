@@ -36,3 +36,5 @@ coverage/
 
 # JavaScript files (since you're using TypeScript)
 src/**/*.js
+
+/Users/emma/Documents/finance-app/src/test.ts
