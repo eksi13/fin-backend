@@ -1,22 +1,19 @@
 import { AccountData, InsertAccountData, UpdateAccountData } from '../../models/AccountData.js';
-import { DbClient } from '../client/DbClient.js';
 import { TableRepository } from './TableRepository.js';
 
 export class AccountRepository {
-    private dbService: DbClient;
     private static instance: AccountRepository | null;
     private TableRepository: TableRepository;
 
 
-    private constructor(dbService: DbClient, TableRepository: TableRepository) {
-        this.dbService = dbService;
+    private constructor(TableRepository: TableRepository) {
         this.TableRepository = TableRepository;
     };
 
 
-    public static getInstance(dbService: DbClient, TableRepository: TableRepository): AccountRepository {
+    public static getInstance(TableRepository: TableRepository): AccountRepository {
         if(!AccountRepository.instance) {
-            AccountRepository.instance = new AccountRepository(dbService, TableRepository);
+            AccountRepository.instance = new AccountRepository(TableRepository);
         }
         return AccountRepository.instance;
     };
