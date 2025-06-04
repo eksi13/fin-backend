@@ -14,7 +14,7 @@ export class TableRepository {
     };
 
 
-    public async create<T extends object>(data: T): Promise<T> {
+    public async create<TInput extends object, TOutput extends object>(data: TInput): Promise<TOutput> {
         const keyList = Object.keys(data).join(', ');
         const valueList = Object.values(data).map( (key) => `'${key}'`).join(', ');
 
@@ -25,7 +25,7 @@ export class TableRepository {
         const query1 = `SELECT * FROM ${this.tableName} WHERE id = ${result.lastID}`;
         const result2 = await this.dbService.runQuery(query1);
 
-        return result2;
+        return result2[0];
     };
 
 
@@ -33,7 +33,7 @@ export class TableRepository {
         const query = `SELECT * FROM ${this.tableName} WHERE id = ${id}`
         const result = await this.dbService.runQuery(query);
 
-        return result;
+        return result[0];
     };
 
 
@@ -54,14 +54,13 @@ export class TableRepository {
 
         subQuery = subQuery.concat('lastUpdated = CURRENT_TIMESTAMP');
         let query = `UPDATE ${this.tableName} SET ${subQuery} WHERE id = ${id};`;
-        console.log(query);
 
         this.dbService.runQuery(query);
 
         const sqlRead = `SELECT * FROM ${this.tableName} WHERE id = ${id}`;
         const accountUpdated = await this.dbService.runQuery(sqlRead);
 
-        return accountUpdated;
+        return accountUpdated[0];
     };
 
 
