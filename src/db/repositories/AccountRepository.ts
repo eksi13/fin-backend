@@ -22,74 +22,27 @@ export class AccountRepository {
     };
 
 
-    public async createAccount(account: InsertAccountData): Promise<AccountData> {
-        const { name, balance, type, currency } = account;
-        const sqlCreate = `INSERT INTO account_table (name, balance, type, currency) VALUES ('${name}', '${balance}', '${type}', '${currency}') RETURNING *`;
-        const result = await this.dbService.runQuery(sqlCreate);
-
-        const sqlRead = `SELECT * FROM account_table WHERE id = ${result.lastID}`;
-        const result2 = await this.dbService.runQuery(sqlRead);
-
-        return result2;
+    public async createAccount(account: InsertAccountData): Promise<AccountData>  {
+        return await this.TableRepository.create(account);
     };
     
 
     public async getAccountById(id: number): Promise<AccountData> {
-        const sqlQuery = `SELECT * FROM account_table WHERE id = ${id}`
-        const account = await this.dbService.runQuery(sqlQuery);
-
-        return account;
+        return await this.TableRepository.getById(id);
     };
     
 
     public async getAllAccounts(): Promise<AccountData[]> {
-        const sqlQuery = 'SELECT * FROM account_table'
-        const accounts = await this.dbService.runQuery(sqlQuery);
-
-        return accounts;
+        return await this.TableRepository.getAll();
     };
     
 
     public async updateAccount(id: number, updates: UpdateAccountData) {
-        let valueQuery = '';
-
-        for (const [key, value] of Object.entries(updates)) {
-            if (value !== undefined) {
-                const subQuery = `${key} = '${value}'`;
-                valueQuery = valueQuery.concat(subQuery.toString()).concat(', ');
-            };
-        };
-
-        valueQuery = valueQuery.concat('lastUpdated = CURRENT_TIMESTAMP');        
-        const sqlUpdate = `UPDATE account_table SET ${valueQuery} WHERE id = ${id}`;
-        this.dbService.runQuery(sqlUpdate);
-
-        const sqlRead = `SELECT * FROM account_table WHERE id = ${id}`;
-        const accountUpdated = await this.dbService.runQuery(sqlRead);
-
-        return accountUpdated;
+        return await this.TableRepository.update(id, updates);
     };
 
 
-    public async deleteAccount(id: number) {
-        let sqlDelete = `DELETE FROM account_table WHERE id = ${id}`;
-        const result  = await this.dbService.runQuery(sqlDelete);
-
-        return result.changes > 0;
-    };
-
-
-    public async foo<T extends object>(data: T): Promise<T> {
-        const keyList = Object.keys(data).join(', ');
-        const valueList = Object.values(data).map( (key) => `'${key}'`).join(', ');
-
-        const query = `INSERT INTO account_table ( ${keyList} ) VALUES  ( ${valueList} ) RETURNING *;`;
-
-        const result = await this.dbService.runQuery(query);
-
-        const query1 = `SELECT * FROM account_table WHERE id = ${result.lastID}`;
-        const result2 = await this.dbService.runQuery(query1);
-
-        return result2;
+    public async deleteAccount(id: number): Promise<boolean> {
+        return await this.TableRepository.delete(id);
     };
 };
