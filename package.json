@@ -4,7 +4,7 @@
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^22.7.5",
     "gts": "^6.0.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.8.3"
   },
   "scripts": {
     "start": "node ./build/src/test.js",
@@ -14,7 +14,8 @@
     "fix": "gts fix",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
-    "posttest": "npm run lint"
+    "posttest": "npm run lint",
+    "watch": "tsc --watch"
   },
   "dependencies": {
     "sqlite": "^5.1.1",
