@@ -11,3 +11,7 @@ export interface TransactionData {
 
     description?: string | null;
 }
+
+export type InsertTransactionData = Omit<TransactionData, 'id' | 'lastUpdated'>
+
+export type UpdateTransactionData = Partial<InsertTransactionData>
