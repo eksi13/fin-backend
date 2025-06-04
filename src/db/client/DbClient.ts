@@ -39,15 +39,10 @@ export class DbClient {
 
         } else if (
             sqlQuery.trim().toUpperCase().startsWith('INSERT') 
-            || sqlQuery.trim().toUpperCase().startsWith('DELETE')
+            || sqlQuery.trim().toUpperCase().startsWith('DELETE') || sqlQuery.trim().toUpperCase().startsWith('UPDATE')
         ) {
             result = await this.db.run(sqlQuery);
-        } else if (sqlQuery.trim().toUpperCase().startsWith('UPDATE') ) {
-            
-            // TODO implement this properly so it can handel pramaters for updatinng vakllues
-            result = await this.db.run(sqlQuery, parameters);
-
-        } else { // needs to be removed
+        } else { // needs to be removed 
             result = await this.db.all('SELECT 1');
             console.log("fallback"); 
         }
