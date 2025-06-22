@@ -42,7 +42,7 @@ export class DbClient {
             || sqlQuery.trim().toUpperCase().startsWith('DELETE') || sqlQuery.trim().toUpperCase().startsWith('UPDATE')
         ) {
             result = await this.db.run(sqlQuery);
-        } else { // needs to be removed 
+        } else { // TODO needs to be removed 
             result = await this.db.all('SELECT 1');
             console.log("fallback"); 
         }
