@@ -6,8 +6,8 @@ export class Transaction implements TransactionData {
     private _id: string; // UUID
     private _amount: number;
     private _date: Date; // when it was booked
-    private _categoryId: string; // e.g. health, food, transport
-    private _accountId: string;
+    private _categoryId: number; // e.g. health, food, transport
+    private _accountId: number;
     private _type: TransactionType; // e.g. ausgabe / einnahme
     private _lastUpdated: Date;
     private _description: string | null ;
@@ -29,9 +29,9 @@ export class Transaction implements TransactionData {
 
     public get date(): Date { return this._date }
 
-    public get categoryId(): string { return this._categoryId }
+    public get categoryId(): number { return this._categoryId }
     
-    public get accountId(): string { return this._accountId }
+    public get accountId(): number { return this._accountId }
     
     public get type(): TransactionType { return this._type }
     
@@ -50,12 +50,12 @@ export class Transaction implements TransactionData {
         this._lastUpdated = new Date();
     }
 
-    public updateCategoryId(newCategoryId: string): void { 
+    public updateCategoryId(newCategoryId: number): void { 
         this._categoryId = newCategoryId;
         this._lastUpdated = new Date();
     }
 
-    public updateAccountId(newAccountId: string): void { 
+    public updateAccountId(newAccountId: number): void { 
         this._accountId = newAccountId;
         this._lastUpdated = new Date();
     }
