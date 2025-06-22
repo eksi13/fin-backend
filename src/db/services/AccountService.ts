@@ -48,12 +48,12 @@ export class AccountService {
     };
 
     public async getAllAccounts(): Promise<AccountData[]> {
-        return this.repository.getAllAccounts();
+        return await this.repository.getAllAccounts();
     };
 
 
     // update 
-    public async updateAccount(accountID: number, changes: UpdateAccountData): Promise<AccountData> {
+    public async updateAccount(id: number, changes: UpdateAccountData): Promise<AccountData> {
         if (!changes || (Object.keys(changes).length === 0)) { 
             throw new Error(`Invalid account updates: '${JSON.stringify(changes)}'`);
         }
@@ -74,34 +74,28 @@ export class AccountService {
             throw new Error(`Currency not allowed for updates: '${changes.currency}'`);
         }
 
-        return await this.repository.updateAccount(accountID, changes) as AccountData;
+        return await this.repository.updateAccount(id, changes) as AccountData;
     };
 
 
-    public async adjustBalance(accountID: number, amount: number, decrease: boolean): Promise<AccountData> {
+    public async adjustBalance(id: number, amount: number, decrease: boolean): Promise<AccountData> {
         if (!amount || (!(typeof amount === 'number' ))) {
             throw new Error(`Invalid amount: '${amount}'`);
         };
 
 
 
-        const account = await this.repository.getAccountById(accountID);
+        const account = await this.repository.getAccountById(id);
         account.balance += decrease ? -amount : amount;
 
-        return await this.repository.updateAccount(accountID, {balance: account.balance}) as AccountData;
+        return await this.repository.updateAccount(id, {balance: account.balance}) as AccountData;
     };
 
     
     // delete
-    public async deleteAccount(accountID: number): Promise<boolean> {
-        return await this.repository.deleteAccount(accountID);
+    public async deleteAccount(id: number): Promise<boolean> {
+        return await this.repository.deleteAccount(id);
     };
-
-
-
-
-    
-
 
 
     // future
