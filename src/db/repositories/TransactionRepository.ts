@@ -32,7 +32,7 @@ export class TransactionRepository {
         const result = await this.tableRepository.getById(id);
         if(!result) {
             throw new Error(`Transaction with ID ${id} not found`);
-        }
+        };
         return await this.tableRepository.getById(id);
     };
     
@@ -41,7 +41,7 @@ export class TransactionRepository {
         const result = await this.tableRepository.getAll() as TransactionData[];
         if (result.length === 0) {
             throw new Error('No transactions found in database');
-        }
+        };
         return result;
     };
     
@@ -50,7 +50,7 @@ export class TransactionRepository {
         const result =  await this.tableRepository.update(id, updates);
         if (!result) {
             throw new Error(`Could not update transaction with ID ${id}, transaction not found`);
-        }
+        };
         return result as TransactionData;
     };
 
@@ -59,7 +59,7 @@ export class TransactionRepository {
         const result = await this.tableRepository.getById(id);
         if(!result) {
             throw new Error(`Could not delete transaction with ID ${id}, transaction not found`);
-        }
+        };
         return await this.tableRepository.delete(id);
     };
 };
