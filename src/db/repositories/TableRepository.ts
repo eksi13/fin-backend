@@ -5,7 +5,7 @@ import { DbClient } from '../client/DbClient.js';
 
 export class TableRepository {
     private dbService: DbClient;
-    private tableName: string;
+    public tableName: string;
 
 
     public constructor(dbService: DbClient, tableName: string) {
@@ -32,7 +32,6 @@ export class TableRepository {
     public async getById<T extends object>(id: number): Promise<T> {
         const query = `SELECT * FROM ${this.tableName} WHERE id = ${id}`
         const result = await this.dbService.runQuery(query);
-
         return result[0];
     };
 
