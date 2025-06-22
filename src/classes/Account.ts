@@ -1,4 +1,4 @@
-import { AccountType } from '../types';
+import { AccountType, Currency } from '../types';
 import { AccountData } from '../models/AccountData';
 
 export class Account implements AccountData {
@@ -6,7 +6,7 @@ export class Account implements AccountData {
     private _name: string;
     private _balance: number;
     private _type: AccountType;
-    private _currency: string;
+    private _currency: Currency;
     private _lastUpdated: Date;
 
     constructor(data: AccountData) {
@@ -14,7 +14,7 @@ export class Account implements AccountData {
         this._name = data.name;
         this._balance = data.balance;
         this._type = data.type;
-        this._currency = data.currency || 'EUR';
+        this._currency = data.currency || Currency.EUR;
         this._lastUpdated = data.lastUpdated || new Date();
     }
 
@@ -26,7 +26,7 @@ export class Account implements AccountData {
 
     public get type(): AccountType { return this._type }
 
-    public get currency(): string { return this._currency }
+    public get currency(): Currency { return this._currency }
 
     public get lastUpdated(): Date { return this._lastUpdated }
 
