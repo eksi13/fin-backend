@@ -1,6 +1,7 @@
 export enum TransactionType {
     Ausgabe = 'Ausgabe',
-    Einnahme = 'Einnahme' 
+    Einnahme = 'Einnahme',
+    Transfer = 'Transfer'
 }
 
 export enum AccountType {
