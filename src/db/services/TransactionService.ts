@@ -1,5 +1,6 @@
 import { InsertTransactionData, TransactionData, UpdateTransactionData } from "../../models/TransactionData";
 import { TransactionType } from "../../types/index.js";
+import { assertIsDate, assertIsNumber, assertIsString, assertIsTransactionType, assertStringLenght, checkIfObjectHasKeys } from "../../utils/validationHelpers";
 import { AccountRepository } from "../repositories/AccountRepository";
 import { CategoryRepository } from "../repositories/CategoryRepository";
 import { TransactionRepository } from "../repositories/TransactionRepository";
@@ -19,33 +20,9 @@ export class TransactionService {
 
     // create
     public async createTransaction(transaction: InsertTransactionData): Promise<TransactionData> {
-        if (!transaction.amount || !(typeof transaction.amount === 'number')) {
-            throw new Error(`Invalid transaction amount: '${transaction.amount}'`);
-        }
-
-        if (!transaction.date || !(transaction.date instanceof Date)) {
-            throw new Error(`Invalid transaction date: '${transaction.date}'`);
-        }
-
-        if (!transaction.categoryId || !(typeof transaction.categoryId === 'number')) {
-            throw new Error(`Invalid transaction categoryID: '${transaction.categoryId}'`);
-        } else if (transaction.categoryId) {
-            await this.checkIfCategoryExists(transaction.categoryId);
-        }
-        
-        if (!transaction.accountId || !(typeof transaction.accountId === 'number')) {
-            throw new Error(`Invalid transaction accountID: '${transaction.accountId}'`);
-        } else if (transaction.accountId) {
-            await this.checkIfAccountExists(transaction.accountId);
-        }
-
-        if (!transaction.type || !Object.values(TransactionType).includes(transaction.type)) {
-            throw new Error(`Invalid transaction type: '${transaction.type}'`);
-        }
-
-        if (transaction.description && (!(typeof transaction.description === 'string') || !(transaction.description.length > 0))) {
-            throw new Error(`Invalid transaction description: '${transaction.description}'`);
-        }
+        assertIsTransactionType(transaction);
+        await this.checkIfCategoryExists(transaction.categoryId);
+        await this.checkIfAccountExists(transaction.accountId);
         
         return await this.repository.createTransaction(transaction);
     };
@@ -63,47 +40,77 @@ export class TransactionService {
 
     // update 
     public async updateTransaction(transactionID: number, changes: UpdateTransactionData): Promise<TransactionData> {
-        if (!changes || (Object.keys(changes).length === 0)) { 
+        if (!changes || !checkIfObjectHasKeys(changes)) { 
             throw new Error(`Invalid transaction updates: '${JSON.stringify(changes)}'`);
         }
-
-        if (changes.amount && ( !(typeof changes.amount === 'number' ) || (changes.amount < 0) )) {
-            throw new Error(`Amount invalid for updates: '${changes.amount}'`);
+        if (changes.amount) {
+            assertIsNumber(changes.amount);
+            changes.amount = Math.abs(changes.amount);
         }
-
-        if (changes.date && !(changes.date instanceof Date)) {
-            throw new Error(`Invalid transaction date: '${changes.date}'`);
+        if (changes.date) {
+            assertIsDate(changes.date);
         }
-
         if (changes.categoryId) {
-            if (!(typeof changes.categoryId === 'number' )) {
-                throw new Error(`Invalid category ID for updates: '${changes.categoryId}'`);
-            } 
+            assertIsNumber(changes.categoryId);
             await this.checkIfCategoryExists(changes.categoryId);
         }
-
         if (changes.accountId) {
-            if (!(typeof changes.accountId === 'number' )) {
-                throw new Error(`Invalid account ID for updates: '${changes.accountId}'`);
-            } 
+            assertIsNumber(changes.accountId);
             await this.checkIfAccountExists(changes.accountId);
         }
-
-        if (changes.type && !Object.values(TransactionType).includes(changes.type)) {
-            throw new Error(`Invalid transaction type: '${changes.type}'`);
+        if (changes.type) {
+            assertIsTransactionType(changes.type);
         }
-
-        if (changes.description && (!(typeof changes.description === 'string') || !(changes.description.length > 0))) {
-            throw new Error(`Invalid transaction description: '${changes.description}'`);
+        if (changes.description) {
+            assertIsString(changes.description);
+            assertStringLenght(changes.description);
         }
-
         return await this.repository.updateTransaction(transactionID, changes) as TransactionData;
     };
 
 
     // delete
-    public async deleteTransaction(id: number): Promise<Boolean> {
+    public async deleteTransaction(id: number): Promise<boolean> {
         return await this.repository.deleteTransaction(id);
+    };
+
+
+
+    // TODO business logic
+    // get transactions by account / category / data
+    // recurring transactions
+    // undo / reverse transactions
+    // bulk erxport
+
+    public async transferBetweenAccounts(amount: number, date: Date, categoryId: number, fromAccountId: number, toAccountId: number) {
+        await this.checkIfAccountExists(fromAccountId);
+        const fromAccount = await this.accountRepository.getAccountById(fromAccountId);
+
+        await this.checkIfAccountExists(toAccountId);
+        const toAccount = await this.accountRepository.getAccountById(toAccountId);
+
+        await this.checkIfCategoryExists(categoryId);
+        
+        const transactionFrom = { 
+            amount: Math.abs(amount), 
+            date: date,
+            categoryId: categoryId,
+            accountId: fromAccountId,
+            type: TransactionType.TransferMinus
+        };
+        await this.createTransaction(transactionFrom);
+
+        const transactionTo = { 
+            amount: Math.abs(amount),
+            date: date,
+            categoryId: categoryId,
+            accountId: toAccountId,
+            type: TransactionType.TransferPlus
+        };
+        await this.createTransaction(transactionTo);
+
+       await this.accountRepository.updateAccount(fromAccount.id, { balance: fromAccount.balance - transactionFrom.amount });
+       await this.accountRepository.updateAccount(toAccount.id, { balance: toAccount.balance - transactionTo.amount });
     };
 
 
@@ -124,4 +131,5 @@ export class TransactionService {
         }
     };
 
+    // TODO maybe add helper functions to automatically check for types / validity of attributes
 };
