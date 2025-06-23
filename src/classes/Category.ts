@@ -1,7 +1,7 @@
 import { CategoryData } from '../models/CategoryData';
 
 export class Category implements CategoryData {
-    private _id: string; // UUID
+    private _id: number; // UUID
     private _name: string;
     private _lastUpdated: Date;
     private _budget: number | null;
@@ -13,7 +13,7 @@ export class Category implements CategoryData {
         this._budget = data.budget ?? null;
     }
 
-    public get id(): string { return this._id }
+    public get id(): number { return this._id }
 
     public get name(): string { return this._name }
 

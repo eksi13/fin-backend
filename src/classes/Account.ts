@@ -2,7 +2,7 @@ import { AccountType, Currency } from '../types';
 import { AccountData } from '../models/AccountData';
 
 export class Account implements AccountData {
-    private _id: string; // UUID
+    private _id: number;
     private _name: string;
     private _balance: number;
     private _type: AccountType;
@@ -18,7 +18,7 @@ export class Account implements AccountData {
         this._lastUpdated = data.lastUpdated || new Date();
     }
 
-    public get id(): string { return this._id }
+    public get id(): number { return this._id }
 
     public get name(): string { return this._name }
 

@@ -3,7 +3,7 @@ import { TransactionData } from '../models/TransactionData'
 
 
 export class Transaction implements TransactionData {
-    private _id: string; // UUID
+    private _id: number;
     private _amount: number;
     private _date: Date; // when it was booked
     private _categoryId: number; // e.g. health, food, transport
@@ -23,7 +23,7 @@ export class Transaction implements TransactionData {
         this._description = data.description ?? null;
     }
 
-    public get id(): string { return this._id }
+    public get id(): number { return this._id }
 
     public get amount(): number { return this._amount }
 
