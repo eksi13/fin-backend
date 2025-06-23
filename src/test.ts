@@ -1,31 +1,33 @@
 import { DbClient } from './db/client/DbClient.js';
 import { AccountRepository } from './db/repositories/AccountRepository.js';
+import { TransactionRepository } from './db/repositories/TransactionRepository.js';
 import { TableRepository } from './db/repositories/TableRepository.js';
 import { CategoryRepository } from './db/repositories/CategoryRepository.js';
 import { AccountData, InsertAccountData, UpdateAccountData } from './models/AccountData.js';
 import { CategoryData, InsertCategoryData, UpdateCategoryData } from './models/CategoryData.js'
-import { AccountType } from './types/index.js';
+import { AccountType, TransactionType } from './types/index.js';
 import { Currency } from './types/index.js';
+import { AccountService } from './db/services/AccountService.js'; 
+import { InsertTransactionData , UpdateTransactionData } from './models/TransactionData.js';
+import { TransactionService } from './db/services/TransactionService.js';
 
 
-const accountdata1: InsertAccountData = {
-  name: 'Savings Account',
-  balance: 1500.50,
-  type: AccountType.Girokonto,
-  currency: Currency.EUR
+const taData: InsertTransactionData = {
+  amount: 123,
+  date: new Date(Date.UTC(2025, 11, 13)),
+  categoryId: 3,
+  accountId: 3,
+  type: TransactionType.Ausgabe,
+  description: ''
 };
 
-
-const accUpdate: UpdateAccountData = {
-  name: 'xxxx',
-  balance: 1111,
-  type: AccountType.Bargeld,
-  currency: Currency.EUR
-};
-
-const categordydata1: InsertCategoryData = {
-  name: 'Groceries',
-  budget: 500
+const taDataUpdate: UpdateTransactionData = {
+  amount: 123,
+  date: new Date(Date.UTC(2025, 11, 13)),
+  categoryId: 3,
+  accountId: 3,
+  type: TransactionType.Ausgabe,
+  description: ''
 };
 
 
@@ -35,23 +37,22 @@ dbClient.initDatabase();
 
 
 // create repositories for all of the object types
-const accountTableRepository = new TableRepository(dbClient, 'account_table');
-const accountRepository = AccountRepository.getInstance(accountTableRepository);
-
-const account = await accountRepository.createAccount(accountdata1);
-console.log(account);
+const accountRepository = AccountRepository.getInstance(dbClient);
+const transactionRepository = TransactionRepository.getInstance(dbClient);
+const categoryRepository = CategoryRepository.getInstance(dbClient);
 
 
-const categoryTableRepository = new TableRepository(dbClient, 'category_table');
-const categoryRepository = CategoryRepository.getInstance(categoryTableRepository);
+const transactionService = new TransactionService(transactionRepository, accountRepository, categoryRepository);
 
-const category = await categoryRepository.createCategory(categordydata1);
-console.log(category);
-
-// const account = await accountRepository.createAccount(accountdata1);
-//const accountWithID = await accountRepository.getAccountById(9);
+console.log(await transactionService.createTransaction(taData));
 
 
-// const accounts = await accountRepository.getAllAccounts();
-// const newAcc = await accountRepository.updateAccount(2, accUpdate);
-const delAcc = await accountRepository.deleteAccount(2);
+
+// const transactionTableRepository = new TableRepository(dbClient, 'account_table');
+// const transactionRepository = TransactionRepository.getInstance(transactionTableRepository);
+
+// const accountService = new AccountService(accountRepository);
+// const transactionService = new TransactionService(transactionRepository);
+
+
+// console.log(await transactionRepository.createTransaction(taData));
