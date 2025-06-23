@@ -1,7 +1,8 @@
 export enum TransactionType {
     Ausgabe = 'Ausgabe',
     Einnahme = 'Einnahme',
-    Transfer = 'Transfer'
+    TransferPlus = 'TransferPlus',
+    TransferMinus = 'TransferMinus'
 }
 
 export enum AccountType {
@@ -15,3 +16,5 @@ export enum Currency {
     EUR = 'EUR', 
     USD = 'USD'
 }
+
+// TODO create categories for ex. for transfers -> 999, ...
