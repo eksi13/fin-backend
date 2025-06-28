@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { SCHEMA_FILES } from '../config.js';
+import { SCHEMA_FILES } from '../config/config.js';
 
 import sqlite3 from 'sqlite3'
 import { open, Database } from 'sqlite';
