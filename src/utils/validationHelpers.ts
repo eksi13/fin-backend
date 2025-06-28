@@ -1,7 +1,5 @@
-import { info } from "console";
 import { InsertTransactionData } from "../models/TransactionData";
 import { AccountType, TransactionType } from "../types";
-import { isNullOrUndefined } from "util";
 
 
 // simple types
