@@ -1,7 +1,7 @@
 import { AccountData } from "../../models/AccountData";
 import { InsertTransactionData, TransactionData, UpdateTransactionData } from "../../models/TransactionData";
 import { TransactionType } from "../../types/index.js";
-import { assertIsDate, assertIsNumber, assertIsString, assertIsTransactionType, assertStringLenght, checkIfObjectHasKeys } from "../../utils/validationHelpers";
+import { assertIsDate, assertIsNumber, assertIsString, assertIsTransactionType, assertStringLenght, checkIfObjectHasKeys } from "../../utils/validationHelpers.js";
 import { AccountRepository } from "../repositories/AccountRepository";
 import { CategoryRepository } from "../repositories/CategoryRepository";
 import { TransactionRepository } from "../repositories/TransactionRepository";
