@@ -1,3 +1,4 @@
+import { AccountData } from "../../models/AccountData";
 import { InsertTransactionData, TransactionData, UpdateTransactionData } from "../../models/TransactionData";
 import { TransactionType } from "../../types/index.js";
 import { assertIsDate, assertIsNumber, assertIsString, assertIsTransactionType, assertStringLenght, checkIfObjectHasKeys } from "../../utils/validationHelpers";
@@ -82,7 +83,7 @@ export class TransactionService {
     // undo / reverse transactions
     // bulk erxport
 
-    public async transferBetweenAccounts(amount: number, date: Date, categoryId: number, fromAccountId: number, toAccountId: number) {
+    public async transferBetweenAccounts(amount: number, date: Date, categoryId: number, fromAccountId: number, toAccountId: number): Promise<AccountData[]> {
         await this.checkIfAccountExists(fromAccountId);
         const fromAccount = await this.accountRepository.getAccountById(fromAccountId);
 
@@ -109,9 +110,28 @@ export class TransactionService {
         };
         await this.createTransaction(transactionTo);
 
-       await this.accountRepository.updateAccount(fromAccount.id, { balance: fromAccount.balance - transactionFrom.amount });
-       await this.accountRepository.updateAccount(toAccount.id, { balance: toAccount.balance - transactionTo.amount });
+       const account1 = await this.accountRepository.updateAccount(fromAccount.id, { balance: fromAccount.balance - transactionFrom.amount });
+       const account2 = await this.accountRepository.updateAccount(toAccount.id, { balance: toAccount.balance - transactionTo.amount });
+
+       return [account1, account2];
     };
+
+
+    public async undoTransaction(id: number) {
+        const transaction = await this.getTransactionById(id);
+        const account = await this.accountRepository.getAccountById(transaction.accountId);
+
+        let updatedAccountBalance = account.balance;
+
+        if (transaction.type === TransactionType.Ausgabe || transaction.type === TransactionType.TransferMinus) {
+            updatedAccountBalance += transaction.amount;
+        } else if (transaction.type === TransactionType.Einnahme || transaction.type === TransactionType.TransferPlus) {
+            updatedAccountBalance -= transaction.amount;
+        }
+        // TODO update transaction infromation to include transfer ids -> so we can delete transacions from both accounts at once!!
+        await this.accountRepository.updateAccount(transaction.accountId, {balance: updatedAccountBalance} );
+        await this.deleteTransaction(id);
+    }
 
 
     // helpers
