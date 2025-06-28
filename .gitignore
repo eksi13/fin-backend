@@ -34,7 +34,5 @@ logs/
 coverage/
 .nyc_output/
 
-# JavaScript files (since you're using TypeScript)
+# JavaScript files
 src/**/*.js
-
-/Users/emma/Documents/finance-app/src/test.ts
