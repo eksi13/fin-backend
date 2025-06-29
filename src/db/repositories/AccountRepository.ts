@@ -1,9 +1,9 @@
 import { AccountData, InsertAccountData, UpdateAccountData } from '../../models/AccountData.js';
-import { DbClient } from '../client/DbClient.js';
-import { TableRepository } from './TableRepository.js';
+import DbClient from '../client/DbClient.js';
+import TableRepository from './TableRepository.js';
 
 
-export class AccountRepository {
+class AccountRepository {
     private static instance: AccountRepository | null;
     private dbClient: DbClient;
     private tableRepository: TableRepository;
@@ -64,3 +64,5 @@ export class AccountRepository {
         return await this.tableRepository.delete(id);
     };
 };
+
+export default AccountRepository;

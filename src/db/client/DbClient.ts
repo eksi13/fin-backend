@@ -11,7 +11,7 @@ const DB_PATH = path.resolve(__dirname, '../../../../database/db.sqlite');
 const SCHEMA_PATH = path.resolve(__dirname, '../../../../src/db/schema/');
 
 
-export class DbClient {
+class DbClient {
     // singleton design pattern!
     private static instance: DbClient | null = null;
     private db!: Database; 
@@ -82,3 +82,5 @@ export class DbClient {
         return !!DbClient.instance;
     };
 };
+
+export default DbClient;

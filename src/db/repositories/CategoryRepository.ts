@@ -1,9 +1,9 @@
 import { CategoryData, InsertCategoryData, UpdateCategoryData} from '../../models/CategoryData.js';
-import { TableRepository } from './TableRepository.js';
-import { DbClient } from '../client/DbClient.js';
+import TableRepository from './TableRepository.js';
+import DbClient from '../client/DbClient.js';
 
 
-export class CategoryRepository {
+class CategoryRepository {
     private static instance: CategoryRepository | null;
     private dbClient: DbClient;
     private tableRepository: TableRepository;
@@ -64,3 +64,5 @@ export class CategoryRepository {
         return await this.tableRepository.delete(id);
     };
 };
+
+export default CategoryRepository;

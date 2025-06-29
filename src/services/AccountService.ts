@@ -1,6 +1,6 @@
 import { AccountData, InsertAccountData, UpdateAccountData } from "../models/AccountData";
 import { AccountType, Currency } from "../types/index.js";
-import { AccountRepository } from "../db/repositories/AccountRepository";
+import AccountRepository from "../db/repositories/AccountRepository";
 
 
 // service layer, used for business logic
@@ -13,10 +13,7 @@ import { AccountRepository } from "../db/repositories/AccountRepository";
 // how do AccountData & AccountService interact?
 
 // TODO currency conversion: https://www.npmjs.com/package/easy-currencies
-
-
-
-export class AccountService {
+class AccountService {
     private repository: AccountRepository;    
 
     public constructor(repository: AccountRepository) {
@@ -83,8 +80,6 @@ export class AccountService {
             throw new Error(`Invalid amount: '${amount}'`);
         };
 
-
-
         const account = await this.repository.getAccountById(id);
         account.balance += decrease ? -amount : amount;
 
@@ -108,3 +103,5 @@ export class AccountService {
     */
 
 };
+
+export default AccountService;

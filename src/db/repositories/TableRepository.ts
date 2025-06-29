@@ -1,9 +1,7 @@
-import { table } from 'console';
-import { AccountData, InsertAccountData, UpdateAccountData } from '../../models/AccountData.js';
-import { DbClient } from '../client/DbClient.js';
+import DbClient from '../client/DbClient.js';
 
 
-export class TableRepository {
+class TableRepository {
     private dbService: DbClient;
     public tableName: string;
 
@@ -72,4 +70,6 @@ export class TableRepository {
         return result.changes > 0;
     };
 
-}
+};
+
+export default TableRepository;

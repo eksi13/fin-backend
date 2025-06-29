@@ -2,12 +2,12 @@ import { AccountData } from "../models/AccountData";
 import { InsertTransactionData, TransactionData, UpdateTransactionData } from "../models/TransactionData";
 import { TransactionType } from "../types/index.js";
 import { assertIsDate, assertIsNumber, assertIsString, assertIsTransactionType, assertStringLenght, checkIfObjectHasKeys } from "../utils/validationHelpers.js";
-import { AccountRepository } from "../db/repositories/AccountRepository";
-import { CategoryRepository } from "../db/repositories/CategoryRepository";
-import { TransactionRepository } from "../db/repositories/TransactionRepository";
+import AccountRepository from "../db/repositories/AccountRepository";
+import CategoryRepository from "../db/repositories/CategoryRepository";
+import TransactionRepository from "../db/repositories/TransactionRepository";
 
 
-export class TransactionService {
+class TransactionService {
     private repository: TransactionRepository;
     private accountRepository: AccountRepository;
     private categoryRepository: CategoryRepository;
@@ -153,3 +153,5 @@ export class TransactionService {
 
     // TODO maybe add helper functions to automatically check for types / validity of attributes
 };
+
+export default TransactionService;

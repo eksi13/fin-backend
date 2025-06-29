@@ -1,8 +1,9 @@
 import { TransactionData, InsertTransactionData, UpdateTransactionData } from '../../models/TransactionData.js';
-import { DbClient } from '../client/DbClient.js';
-import { TableRepository } from './TableRepository.js';
+import DbClient from '../client/DbClient.js';
+import TableRepository from './TableRepository.js';
 
-export class TransactionRepository {
+
+class TransactionRepository {
     private static instance: TransactionRepository | null;
     private dbClient: DbClient;
     private tableRepository: TableRepository;
@@ -63,3 +64,5 @@ export class TransactionRepository {
         return await this.tableRepository.delete(id);
     };
 };
+
+export default TransactionRepository;
