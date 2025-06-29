@@ -36,3 +36,7 @@ coverage/
 
 # JavaScript files
 src/**/*.js
+
+
+
+./app/
