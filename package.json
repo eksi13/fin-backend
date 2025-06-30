@@ -3,14 +3,18 @@
   "devDependencies": {
     "@eslint/js": "^9.29.0",
     "@types/better-sqlite3": "^7.6.13",
+    "@types/express": "^5.0.3",
     "@types/node": "^22.7.5",
     "eslint": "^8.57.1",
     "gts": "^6.0.2",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.34.1"
   },
   "scripts": {
     "start": "node ./build/src/test.js",
+    "devstart": "nodemon src/app.ts",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
