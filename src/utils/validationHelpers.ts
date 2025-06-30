@@ -41,8 +41,6 @@ export function assertIsDate(input: unknown): asserts input is Date {
 };
 
 
-
-
 export function assertIsAccountType(input: unknown): asserts input is AccountType {
     if (!(Object.values(AccountType).includes(input as any)) ) {
         throw new TypeError(`Expected a AccountTpye, but received: ${Object.prototype.toString.call(input)}`);
@@ -56,6 +54,7 @@ export function assertIsTransactionType(input: unknown): asserts input is Transa
         throw new TypeError(`Expected a TransactionType, but received: ${Object.prototype.toString.call(input)}`);
     } 
 };
+
 
 // TODO maybe mmove somewhere else more fitting?
 export function assertInsertTransaction(input: InsertTransactionData): asserts input is InsertTransactionData {
@@ -73,5 +72,4 @@ export function assertInsertTransaction(input: InsertTransactionData): asserts i
         assertIsString(input.description);
         assertStringLenght(input.description);
     }
-
-}
+};
