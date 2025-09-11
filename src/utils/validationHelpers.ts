@@ -1,4 +1,4 @@
-import { InsertTransactionData } from "../models/TransactionData";
+import { InsertTransactionData } from "../models/TransactionData.js";
 import { AccountType, TransactionType } from "../types/index.js";
 
 // simple types

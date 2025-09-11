@@ -1,10 +1,6 @@
-import {
-  AccountData,
-  InsertAccountData,
-  UpdateAccountData,
-} from '../models/AccountData';
-import {AccountType, Currency} from '../types/index.js';
-import AccountRepository from '../db/repositories/AccountRepository';
+import { AccountData, InsertAccountData, UpdateAccountData } from '../models/AccountData.js';
+import { AccountType, Currency } from '../types/index.js';
+import AccountRepository from '../db/repositories/AccountRepository.js';
 
 class AccountService {
   private repository: AccountRepository;

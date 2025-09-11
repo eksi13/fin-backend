@@ -1,9 +1,5 @@
-import {
-  CategoryData,
-  InsertCategoryData,
-  UpdateCategoryData,
-} from '../models/CategoryData';
-import CategoryRepository from '../db/repositories/CategoryRepository';
+import { CategoryData, InsertCategoryData, UpdateCategoryData } from '../models/CategoryData.js';
+import CategoryRepository from '../db/repositories/CategoryRepository.js';
 
 class CategoryService {
   private repository: CategoryRepository;

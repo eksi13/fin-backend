@@ -1,10 +1,10 @@
-import { AccountData } from "../models/AccountData";
-import { InsertTransactionData, TransactionData, UpdateTransactionData } from "../models/TransactionData";
+import { AccountData } from "../models/AccountData.js";
+import { InsertTransactionData, TransactionData, UpdateTransactionData } from "../models/TransactionData.js";
 import { TransactionType } from "../types/index.js";
 import { assertIsDate, assertIsNumber, assertIsString, assertIsTransactionType, assertStringLenght, checkIfObjectHasKeys } from "../utils/validationHelpers.js";
-import AccountRepository from "../db/repositories/AccountRepository";
-import CategoryRepository from "../db/repositories/CategoryRepository";
-import TransactionRepository from "../db/repositories/TransactionRepository";
+import AccountRepository from "../db/repositories/AccountRepository.js";
+import CategoryRepository from "../db/repositories/CategoryRepository.js";
+import TransactionRepository from "../db/repositories/TransactionRepository.js";
 
 
 class TransactionService {
