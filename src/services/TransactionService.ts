@@ -21,9 +21,10 @@ class TransactionService {
 
     // create
     public async createTransaction(transaction: InsertTransactionData): Promise<TransactionData> {
+        console.log(transaction);
         assertIsTransactionType(transaction);
-        await this.checkIfCategoryExists(transaction.categoryId);
-        await this.checkIfAccountExists(transaction.accountId);
+        // await this.checkIfCategoryExists(transaction.categoryId);
+        // await this.checkIfAccountExists(transaction.accountId);
         
         return await this.repository.createTransaction(transaction);
     };

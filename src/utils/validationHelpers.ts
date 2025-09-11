@@ -1,6 +1,5 @@
 import { InsertTransactionData } from "../models/TransactionData";
-import { AccountType, TransactionType } from "../types";
-
+import { AccountType, TransactionType } from "../types/index.js";
 
 // simple types
 export function assertIsNumber(input: unknown): asserts input is number {
@@ -50,6 +49,7 @@ export function assertIsAccountType(input: unknown): asserts input is AccountTyp
 
 // transactions
 export function assertIsTransactionType(input: unknown): asserts input is TransactionType {
+  console.log(input);
     if (!(Object.values(TransactionType).includes(input as any)) ) {
         throw new TypeError(`Expected a TransactionType, but received: ${Object.prototype.toString.call(input)}`);
     } 

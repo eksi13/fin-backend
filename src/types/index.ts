@@ -16,5 +16,3 @@ export enum Currency {
     EUR = 'EUR', 
     USD = 'USD'
 }
-
-// TODO create categories for ex. for transfers -> 999, ...

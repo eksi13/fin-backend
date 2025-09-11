@@ -1,8 +1,6 @@
-CREATE TABLE IF NOT EXISTS account_table (
+CREATE TABLE IF NOT EXISTS category_table (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    balance REAL NOT NULL,
-    type TEXT NOT NULL,
-    currency TEXT NOT NULL,
-    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP
+    budget REAL,
+    lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP  
 );
