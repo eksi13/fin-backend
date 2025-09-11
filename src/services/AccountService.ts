@@ -60,7 +60,7 @@ class AccountService {
     }
 
     if (changes.balance && !(typeof changes.balance === 'number')) {
-      throw new Error(`Balance invalid for updates: '${changes.currency}'`);
+      throw new Error(`Balance invalid for updates: '${changes.balance}'`);
     }
 
     if (changes.type && !Object.values(AccountType).includes(changes.type)) {
