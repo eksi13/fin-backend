@@ -13,7 +13,7 @@
     "typescript-eslint": "^8.34.1"
   },
   "scripts": {
-    "start": "node ./build/src/test.js",
+    "start": "node ./build/test.js",
     "devstart": "nodemon src/app.ts",
     "lint": "gts lint",
     "clean": "gts clean",
