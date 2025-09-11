@@ -1,75 +1,70 @@
 import DbClient from '../client/DbClient.js';
 
-
 class TableRepository {
-    private dbService: DbClient;
-    public tableName: string;
+  private dbService: DbClient;
+  public tableName: string;
 
+  public constructor(dbService: DbClient, tableName: string) {
+    this.dbService = dbService;
+    this.tableName = tableName;
+  }
 
-    public constructor(dbService: DbClient, tableName: string) {
-        this.dbService = dbService;
-        this.tableName = tableName;
-    };
+  public async create<TInput extends object, TOutput extends object>(
+    data: TInput,
+  ): Promise<TOutput> {
+    const keyList = Object.keys(data).join(', ');
+    const valueList = Object.values(data)
+      .map(key => `'${key}'`)
+      .join(', ');
 
+    const query = `INSERT INTO ${this.tableName} ( ${keyList} ) VALUES  ( ${valueList} ) RETURNING *;`;
 
-    public async create<TInput extends object, TOutput extends object>(data: TInput): Promise<TOutput> {
-        const keyList = Object.keys(data).join(', ');
-        const valueList = Object.values(data).map( (key) => `'${key}'`).join(', ');
+    const result = await this.dbService.runQuery(query);
 
-        const query = `INSERT INTO ${this.tableName} ( ${keyList} ) VALUES  ( ${valueList} ) RETURNING *;`;
+    const query1 = `SELECT * FROM ${this.tableName} WHERE id = ${result.lastID}`;
+    const result2 = await this.dbService.runQuery(query1);
 
-        const result = await this.dbService.runQuery(query);
+    return result2[0];
+  }
 
-        const query1 = `SELECT * FROM ${this.tableName} WHERE id = ${result.lastID}`;
-        const result2 = await this.dbService.runQuery(query1);
+  public async getById<T extends object>(id: number): Promise<T> {
+    const query = `SELECT * FROM ${this.tableName} WHERE id = ${id}`;
+    const result = await this.dbService.runQuery(query);
+    return result[0];
+  }
 
-        return result2[0];
-    };
+  public async getAll<T extends object>(): Promise<T[]> {
+    const query = `SELECT * FROM ${this.tableName}`;
+    const resultList = await this.dbService.runQuery(query);
 
+    return resultList;
+  }
 
-    public async getById<T extends object>(id: number): Promise<T> {
-        const query = `SELECT * FROM ${this.tableName} WHERE id = ${id}`
-        const result = await this.dbService.runQuery(query);
-        return result[0];
-    };
+  public async update<T extends object>(id: number, updates: T): Promise<T> {
+    let subQuery = '';
 
+    for (const [key, value] of Object.entries(updates)) {
+      subQuery = subQuery.concat(`${key} = '${value}', `);
+    }
 
-    public async getAll<T extends object>(): Promise<T[]> {
-        const query = `SELECT * FROM ${this.tableName}`;
-        const resultList = await this.dbService.runQuery(query);
+    subQuery = subQuery.concat('lastUpdated = CURRENT_TIMESTAMP');
+    let query = `UPDATE ${this.tableName} SET ${subQuery} WHERE id = ${id};`;
 
-        return resultList;
-    };
+    this.dbService.runQuery(query);
 
+    const sqlRead = `SELECT * FROM ${this.tableName} WHERE id = ${id}`;
+    const accountUpdated = await this.dbService.runQuery(sqlRead);
 
-    public async update<T extends object>(id: number, updates: T): Promise<T> {
-        let subQuery = '';
+    return accountUpdated[0];
+  }
 
-        for (const [key, value] of Object.entries(updates)) {
-            subQuery = subQuery.concat(`${key} = '${value}', `);
-        };
+  public async delete(id: number): Promise<boolean> {
+    let query = `DELETE FROM ${this.tableName} WHERE id = ${id}`;
 
-        subQuery = subQuery.concat('lastUpdated = CURRENT_TIMESTAMP');
-        let query = `UPDATE ${this.tableName} SET ${subQuery} WHERE id = ${id};`;
+    const result = await this.dbService.runQuery(query);
 
-        this.dbService.runQuery(query);
-
-        const sqlRead = `SELECT * FROM ${this.tableName} WHERE id = ${id}`;
-        const accountUpdated = await this.dbService.runQuery(sqlRead);
-
-        return accountUpdated[0];
-    };
-
-
-
-    public async delete(id: number): Promise<boolean> {
-        let query = `DELETE FROM ${this.tableName} WHERE id = ${id}`;
-
-        const result  = await this.dbService.runQuery(query);
-
-        return result.changes > 0;
-    };
-
-};
+    return result.changes > 0;
+  }
+}
 
 export default TableRepository;
