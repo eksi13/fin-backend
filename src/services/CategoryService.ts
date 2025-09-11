@@ -25,50 +25,37 @@ class CategoryService {
     return await this.repository.createCategory(category);
   }
 
-  // // read
-  // public async getAccountById(id: number): Promise<AccountData> {
-  //   return await this.repository.getAccountById(id);
-  // }
+  // read
+  public async getCategoryById(id: number): Promise<CategoryData> {
+    return await this.repository.getCategoryById(id);
+  }
 
-  // public async getAllAccounts(): Promise<AccountData[]> {
-  //   return await this.repository.getAllAccounts();
-  // }
+  public async getAllCategories(): Promise<CategoryData[]> {
+    return await this.repository.getAllCategories();
+  }
 
-  // // update
-  // public async updateAccount(
-  //   id: number,
-  //   changes: UpdateAccountData,
-  // ): Promise<AccountData> {
-  //   if (!changes || Object.keys(changes).length === 0) {
-  //     throw new Error(`Invalid account updates: '${JSON.stringify(changes)}'`);
-  //   }
+  // update
+  public async updateCategory(
+    id: number,
+    changes: UpdateCategoryData,
+  ): Promise<CategoryData> {
+    if (!changes || Object.keys(changes).length === 0) {
+      throw new Error(`Invalid account updates: '${JSON.stringify(changes)}'`);
+    }
 
-  //   if (
-  //     changes.name &&
-  //     (!(typeof changes.name === 'string') || !(changes.name.length > 0))
-  //   ) {
-  //     throw new Error(`Name not allowed for updates: '${changes.name}'`);
-  //   }
+    if (
+      changes.name &&
+      (!(typeof changes.name === 'string') || !(changes.name.length > 0))
+    ) {
+      throw new Error(`Name not allowed for updates: '${changes.name}'`);
+    }
 
-  //   if (changes.balance && !(typeof changes.balance === 'number')) {
-  //     throw new Error(`Balance invalid for updates: '${changes.currency}'`);
-  //   }
+    if (changes.budget && !(typeof changes.budget === 'number')) {
+      throw new Error(`Budget invalid for updates: '${changes.budget}'`);
+    }
 
-  //   if (changes.type && !Object.values(AccountType).includes(changes.type)) {
-  //     throw new Error(`Type not allowed for updates: '${changes.type}'`);
-  //   }
-
-  //   if (
-  //     changes.currency &&
-  //     !Object.values(Currency).includes(changes.currency)
-  //   ) {
-  //     throw new Error(
-  //       `Currency not allowed for updates: '${changes.currency}'`,
-  //     );
-  //   }
-
-  //   return (await this.repository.updateAccount(id, changes)) as AccountData;
-  // }
+    return (await this.repository.updateCategory(id, changes)) as CategoryData;
+  }
 
   // public async adjustBalance(
   //   id: number,
@@ -87,10 +74,10 @@ class CategoryService {
   //   })) as AccountData;
   // }
 
-  // // delete
-  // public async deleteAccount(id: number): Promise<boolean> {
-  //   return await this.repository.deleteAccount(id);
-  // }
+  // delete
+  public async deleteCategory(id: number): Promise<boolean> {
+    return await this.repository.deleteCategory(id);
+  }
 }
 
 export default CategoryService;
