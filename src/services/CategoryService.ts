@@ -1,4 +1,8 @@
-import { CategoryData, InsertCategoryData, UpdateCategoryData } from '../models/CategoryData.js';
+import {
+  CategoryData,
+  InsertCategoryData,
+  UpdateCategoryData,
+} from '../models/CategoryData.js';
 import CategoryRepository from '../db/repositories/CategoryRepository.js';
 
 class CategoryService {
@@ -56,23 +60,6 @@ class CategoryService {
 
     return (await this.repository.updateCategory(id, changes)) as CategoryData;
   }
-
-  // public async adjustBalance(
-  //   id: number,
-  //   amount: number,
-  //   decrease: boolean,
-  // ): Promise<AccountData> {
-  //   if (!amount || !(typeof amount === 'number')) {
-  //     throw new Error(`Invalid amount: '${amount}'`);
-  //   }
-
-  //   const account = await this.repository.getAccountById(id);
-  //   account.balance += decrease ? -amount : amount;
-
-  //   return (await this.repository.updateAccount(id, {
-  //     balance: account.balance,
-  //   })) as AccountData;
-  // }
 
   // delete
   public async deleteCategory(id: number): Promise<boolean> {
