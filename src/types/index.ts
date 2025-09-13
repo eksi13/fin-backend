@@ -1,18 +1,17 @@
 export enum TransactionType {
-    Ausgabe = 'Ausgabe',
-    Einnahme = 'Einnahme',
-    TransferPlus = 'TransferPlus',
-    TransferMinus = 'TransferMinus'
+  Ausgabe = 0,
+  Einnahme = 1,
+  TransferPlus = 2,
+  TransferMinus = 3,
 }
 
 export enum AccountType {
-    Girokonto = 'Girokonto',
-    Tagesgeld = 'Tagesgeld',
-    Bargeld = 'Bargeld',
-    Depot = 'Depot'
+  Girokonto = 0,
+  Tagesgeld = 1,
+  Bargeld = 2,
+  Depot = 3,
 }
 
 export enum Currency {
-    EUR = 'EUR', 
-    USD = 'USD'
+  EUR = 1,
 }
