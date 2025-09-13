@@ -79,7 +79,7 @@ export function assertInsertTransaction(
     'type',
   ];
   for (const key of required) {
-    if (!input[key]) {
+    if (!(key in input)) {
       throw new Error(
         `InsertTransactionData is missing required attribute: ${key}`
       );
@@ -107,7 +107,7 @@ export function assertInsertAccount(
     'currency',
   ];
   for (const key of required) {
-    if (!input[key]) {
+    if (!(key in input)) {
       throw new Error(
         `InsertAccountData is missing required attribute: ${key}`
       );
@@ -124,7 +124,7 @@ export function assertInsertCategory(
 ): asserts input is InsertCategoryData {
   const required: (keyof InsertCategoryData)[] = ['name', 'budget'];
   for (const key of required) {
-    if (!input[key]) {
+    if (!(key in input)) {
       throw new Error(
         `InsertCategoryData is missing required attribute: ${key}`
       );
