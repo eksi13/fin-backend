@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS transaction_table (
   amount REAL NOT NULL,
   categoryId INTEGER NOT NULL,
   accountId INTEGER NOT NULL,
-  type TEXT NOT NULL,
+  type INTEGER NOT NULL,
   description TEXT,
   date TEXT NOT NULL,
   lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP,
