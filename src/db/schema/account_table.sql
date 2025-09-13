@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS account_table (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    balance REAL,
-    type TEXT NOT NULL,
-    currency TEXT NOT NULL,
+    balance REAL NOT NULL,
+    type INTEGER NOT NULL,
+    currency INTEGER NOT NULL,
     lastUpdated DATETIME DEFAULT CURRENT_TIMESTAMP  
 );
