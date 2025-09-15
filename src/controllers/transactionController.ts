@@ -10,10 +10,13 @@ const transactionRepository = TransactionRepository.getInstance(dbClient);
 const accountRepository = AccountRepository.getInstance(dbClient);
 const categoryRepository = CategoryRepository.getInstance(dbClient);
 
-const transactionService = new TransactionService(transactionRepository, accountRepository, categoryRepository);
+const transactionService = new TransactionService(
+  transactionRepository,
+  accountRepository,
+  categoryRepository
+);
 
 export const transactionList = asyncHandler(async (req, res, next) => {
   const transactions = { ...(await transactionService.getAllTransactions()) };
-  console.log(transactions);
   res.json(transactions);
 });

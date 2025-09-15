@@ -9,6 +9,5 @@ const categoryService = new CategoryService(categoryRepository);
 
 export const categoryList = asyncHandler(async (req, res, next) => {
   const categories = { ...(await categoryService.getAllCategories()) };
-  console.log(categories);
   res.json(categories);
 });

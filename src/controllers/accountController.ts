@@ -1,7 +1,6 @@
 import AccountService from '../services/AccountService.js';
 import AccountRepository from '../db/repositories/AccountRepository.js';
 import DbClient from '../db/client/DbClient.js';
-import { RequestHandler, response } from 'express';
 import asyncHandler from 'express-async-handler';
 
 const dbClient = await DbClient.getInstance();
@@ -15,15 +14,14 @@ const accountService = new AccountService(accountRepository);
 // update
 export const accountList = asyncHandler(async (req, res, next) => {
   const accounts = { ...(await accountService.getAllAccounts()) };
-  console.log(accounts);
   res.json(accounts);
 });
 
-// export const accountDetail = asyncHandler(async (req, res, next) => {
-//   console.log(Number(req.params.id));
-//   const account = await accountService.getAccountById(Number(req.params.id));
-//   res.json(account);
-// });
+export const accountDetail = asyncHandler(async (req, res, next) => {
+  console.log(Number(req.params.id));
+  const account = await accountService.getAccountById(Number(req.params.id));
+  res.json(account);
+});
 
 // export const accountCreateGet = asyncHandler(async (req, res, next) => {
 //   res.send('NOT IMPLEMENTED: Account create GET');
