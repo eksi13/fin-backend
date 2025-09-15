@@ -8,7 +8,7 @@ const categoryRepository = CategoryRepository.getInstance(dbClient);
 const categoryService = new CategoryService(categoryRepository);
 
 export const categoryList = asyncHandler(async (req, res, next) => {
-  const catrgories = { ...(await categoryService.getAllCategories()) };
-  console.log(catrgories);
-  res.json(catrgories);
+  const categories = { ...(await categoryService.getAllCategories()) };
+  console.log(categories);
+  res.json(categories);
 });
