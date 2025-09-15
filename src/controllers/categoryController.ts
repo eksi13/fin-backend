@@ -11,3 +11,9 @@ export const categoryList = asyncHandler(async (req, res, next) => {
   const categories = { ...(await categoryService.getAllCategories()) };
   res.json(categories);
 });
+
+export const categoryDetail = asyncHandler(async (req, res, next) => {
+  console.log(Number(req.params.id));
+  const category = await categoryService.getCategoryById(Number(req.params.id));
+  res.json(category);
+});
