@@ -22,27 +22,3 @@ export const accountDetail = asyncHandler(async (req, res, next) => {
   const account = await accountService.getAccountById(Number(req.params.id));
   res.json(account);
 });
-
-// export const accountCreateGet = asyncHandler(async (req, res, next) => {
-//   res.send('NOT IMPLEMENTED: Account create GET');
-// });
-
-// export const accountCreatePost = asyncHandler(async (req, res, next) => {
-//   res.send('NOT IMPLEMENTED: Account create POST');
-// });
-
-// export const accountDeleteGet = asyncHandler(async (req, res, next) => {
-//   res.send('NOT IMPLEMENTED: Account delete GET');
-// });
-
-// export const accountDeletePost = asyncHandler(async (req, res, next) => {
-//   res.send('NOT IMPLEMENTED: Account delete POST');
-// });
-
-// export const accountUpdateGet = asyncHandler(async (req, res, next) => {
-//   res.send('NOT IMPLEMENTED: Account update GET');
-// });
-
-// export const accountUpdatePost = asyncHandler(async (req, res, next) => {
-//   res.send('NOT IMPLEMENTED: Account updare POST');
-// });
