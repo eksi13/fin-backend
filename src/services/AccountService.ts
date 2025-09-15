@@ -1,6 +1,11 @@
-import { AccountData, InsertAccountData, UpdateAccountData } from '../models/AccountData.js';
+import {
+  AccountData,
+  InsertAccountData,
+  UpdateAccountData,
+} from '../models/AccountData.js';
 import { AccountType, Currency } from '../types/index.js';
 import AccountRepository from '../db/repositories/AccountRepository.js';
+import { assertInsertAccount } from '../utils/validationHelpers.js';
 
 class AccountService {
   private repository: AccountRepository;
@@ -11,25 +16,7 @@ class AccountService {
 
   // create
   public async createAccount(account: InsertAccountData): Promise<AccountData> {
-    if (
-      !account.name ||
-      account.name === '' ||
-      !(typeof account.name === 'string')
-    ) {
-      throw new Error(`Invalid account name: '${account.name}'`);
-    }
-    if (!account.balance || !(typeof account.balance === 'number')) {
-      throw new Error(`Invalid account balance: '${account.balance}'`);
-    }
-    if (!account.type || !Object.values(AccountType).includes(account.type)) {
-      throw new Error(`Invalid account type: '${account.type}'`);
-    }
-    if (
-      !account.currency ||
-      !Object.values(Currency).includes(account.currency)
-    ) {
-      throw new Error(`Invalid account currency: '${account.currency}'`);
-    }
+    assertInsertAccount(account);
     // TODO add try and catch for db functions / repositories
     return await this.repository.createAccount(account);
   }
@@ -46,7 +33,7 @@ class AccountService {
   // update
   public async updateAccount(
     id: number,
-    changes: UpdateAccountData,
+    changes: UpdateAccountData
   ): Promise<AccountData> {
     if (!changes || Object.keys(changes).length === 0) {
       throw new Error(`Invalid account updates: '${JSON.stringify(changes)}'`);
@@ -72,7 +59,7 @@ class AccountService {
       !Object.values(Currency).includes(changes.currency)
     ) {
       throw new Error(
-        `Currency not allowed for updates: '${changes.currency}'`,
+        `Currency not allowed for updates: '${changes.currency}'`
       );
     }
 
@@ -82,7 +69,7 @@ class AccountService {
   public async adjustBalance(
     id: number,
     amount: number,
-    decrease: boolean,
+    decrease: boolean
   ): Promise<AccountData> {
     if (!amount || !(typeof amount === 'number')) {
       throw new Error(`Invalid amount: '${amount}'`);

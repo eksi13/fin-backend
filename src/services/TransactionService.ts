@@ -1,10 +1,8 @@
-import {AccountData} from '../models/AccountData.js';
 import {
   InsertTransactionData,
   TransactionData,
   UpdateTransactionData,
 } from '../models/TransactionData.js';
-import {TransactionType} from '../types/index.js';
 import {
   assertInsertTransaction,
   assertIsDate,
@@ -26,7 +24,7 @@ class TransactionService {
   public constructor(
     repository: TransactionRepository,
     accountRepository: AccountRepository,
-    categoryRepository: CategoryRepository,
+    categoryRepository: CategoryRepository
   ) {
     this.repository = repository;
     this.accountRepository = accountRepository;
@@ -35,9 +33,8 @@ class TransactionService {
 
   // create
   public async createTransaction(
-    transaction: InsertTransactionData,
+    transaction: InsertTransactionData
   ): Promise<TransactionData> {
-    console.log(transaction);
     assertInsertTransaction(transaction);
     await this.checkIfCategoryExists(transaction.categoryId);
     await this.checkIfAccountExists(transaction.accountId);
@@ -57,39 +54,39 @@ class TransactionService {
   // update
   public async updateTransaction(
     transactionID: number,
-    changes: UpdateTransactionData,
+    changes: UpdateTransactionData
   ): Promise<TransactionData> {
     if (!changes || !checkIfObjectHasKeys(changes)) {
       throw new Error(
-        `Transaction update failed: no valid fields provided in 'changes' object (received: ${JSON.stringify(changes)})`,
+        `Transaction update failed: no valid fields provided in 'changes' object (received: ${JSON.stringify(changes)})`
       );
     }
 
     if (changes.amount) {
-        assertIsNumber(changes.amount);
-        changes.amount = Math.abs(changes.amount);
+      assertIsNumber(changes.amount);
+      changes.amount = Math.abs(changes.amount);
     }
     if (changes.date) {
-        assertIsDate(changes.date);
+      assertIsDate(changes.date);
     }
     if (changes.categoryId) {
-        assertIsNumber(changes.categoryId);
-        await this.checkIfCategoryExists(changes.categoryId);
+      assertIsNumber(changes.categoryId);
+      await this.checkIfCategoryExists(changes.categoryId);
     }
     if (changes.accountId) {
-        assertIsNumber(changes.accountId);
-        await this.checkIfAccountExists(changes.accountId);
+      assertIsNumber(changes.accountId);
+      await this.checkIfAccountExists(changes.accountId);
     }
     if (changes.type) {
-        assertIsTransactionType(changes.type);
+      assertIsTransactionType(changes.type);
     }
     if (changes.description) {
-        assertIsString(changes.description);
-        assertStringLength(changes.description);
+      assertIsString(changes.description);
+      assertStringLength(changes.description);
     }
     return (await this.repository.updateTransaction(
       transactionID,
-      changes,
+      changes
     )) as TransactionData;
   }
 
@@ -102,7 +99,7 @@ class TransactionService {
   // get transactions by account / category / data
   // recurring transactions
   // undo / reverse transactions
-  // bulk erxport
+  // bulk erxport / import
 
   // public async transferBetweenAccounts(amount: number, date: Date, categoryId: number, fromAccountId: number, toAccountId: number): Promise<AccountData[]> {
   //     await this.checkIfAccountExists(fromAccountId);
