@@ -14,4 +14,5 @@ export enum AccountType {
 
 export enum Currency {
   EUR = 0,
+  USD = 1,
 }
